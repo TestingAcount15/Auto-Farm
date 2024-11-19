@@ -29,12 +29,9 @@ local function breakBlock(node, matchedIslandPart)
         local hrp = lp.Character:WaitForChild("HumanoidRootPart")
         hrp.CFrame = CFrame.new(matchedIslandPart.Position)
         wait(0.1)
-        local success, err = pcall(function()
+        pcall(function()
             blockService:InvokeServer(unpack(args))
         end)
-        if not success then
-            warn("Error while breaking block:", err)
-        end
         repeat
             wait(0.05)
         until not matchedIslandPart.Parent or not getgenv().enabled
@@ -51,10 +48,10 @@ local function matchIslandPart(nodePosition, islandParts)
     return nil
 end
 
-local function main()
+local function farmFlowers()
     while getgenv().enabled do
         respawnIfDead()
-        local success, err = pcall(function()
+        pcall(function()
             local nodes = game.Workspace.Nodes.Mines["9"]:GetChildren()
             local islandParts = game.Workspace.Island:GetDescendants()
             for _, node in ipairs(nodes) do
@@ -65,11 +62,9 @@ local function main()
                 end
             end
         end)
-        if not success then
-            warn("Error in main loop:", err)
-        end
-        wait(1)
+        wait(0.1)
     end
+    warn("Flower farm disabled.")
 end
 
-spawn(main)
+spawn(farmFlowers)
